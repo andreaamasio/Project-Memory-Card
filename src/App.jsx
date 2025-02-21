@@ -7,6 +7,15 @@ function App() {
   const serverUrl = "https://picsum.photos/id/"
   const widthHeightEndPart = "/300/400"
   const dataImageID = [13, 16, 17, 31, 35, 40, 45, 49, 75, 80, 96, 120]
+  const imagesList = []
+  for (let i = 0; i < dataImageID.length; i++) {
+    imagesList.push({
+      imgUrl: serverUrl + dataImageID[i] + widthHeightEndPart,
+      id: dataImageID[i],
+      hasBeenClicked: false,
+    })
+  }
+
   //Fisher-Yates Shuffle
   function shuffleArray(originalArray) {
     const array = [...originalArray]
@@ -16,17 +25,24 @@ function App() {
     }
     return array
   }
-  let shuffledDataImageIs = shuffleArray(dataImageID)
-  let cardsList = []
-  for (let i = 0; i < dataImageID.length; i++) {
-    cardsList.push(
-      <Card imgUrl={serverUrl + shuffledDataImageIs[i] + widthHeightEndPart} />
-    )
-  }
+  let shuffledDataImageIDs = shuffleArray(imagesList)
+  // let cardsList = []
+  // for (let i = 0; i < shuffledDataImageIDs.length; i++) {
+  //   cardsList.push(
+  //     <Card
+  //       imgUrl={shuffledDataImageIDs[i].imgUrl}
+  //       key={shuffledDataImageIDs[i].id}
+  //     />
+  //   )
+  // }
   return (
     <>
       <h1>Memory Card Game</h1>
-      <div className="container">{cardsList}</div>
+      <div className="container">
+        {shuffledDataImageIDs.map((image) => (
+          <Card imgUrl={image.imgUrl} key={image.id} />
+        ))}
+      </div>
     </>
   )
 }
